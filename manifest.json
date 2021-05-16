@@ -1,0 +1,32 @@
+{
+    "name": "Where is my tab ?",
+    "description": "Search tabs in opened windows, and may can also search in bookmarks and history at later version.",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "tabs","commands","windows"
+      ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": "where.png",
+        "default_popup": "srch-res.html"
+    },
+    "commands": {
+        "do-search": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+9",
+                "mac": "Command+Shift+9"
+            },
+            "description": "doSearch"
+        },
+        "backward": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+7",
+                "mac": "Command+Shift+7"
+            },
+            "description": "backward"
+        }
+    }
+  }
