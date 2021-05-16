@@ -1,7 +1,7 @@
 {
     "name": "Where is my tab ?",
     "description": "Search tabs in opened windows, and may can also search in bookmarks and history at later version.",
-    "version": "1.0",
+    "version": "1.1",
     "manifest_version": 3,
     "permissions": [
         "tabs","commands","windows"
