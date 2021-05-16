@@ -5,7 +5,11 @@
 
 ---
 
-<img src="https://z3.ax1x.com/2021/05/17/g2EMt0.png" width="256">
+<p align = "center">
+
+<img src="https://z3.ax1x.com/2021/05/17/g2EMt0.png" width="256" />
+
+</p>
 
 
 Search for tabs in the opened window, may can also search for bookmarks and history in future versions.
@@ -18,7 +22,13 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 
 ### Getting Plug-in
 
+1. 谷歌应用商店搜索并添加即可（添加后记得固定下，方便点击）；
 
+<img src="https://z3.ax1x.com/2021/05/17/g2mGP1.jpg" alt="g2mGP1.jpg" />
+
+2. 点击Release中最新包下载并解压后，添加到本地Chrome，其他操作相同；
+
+<img src="https://z3.ax1x.com/2021/05/17/g2mY26.jpg" alt="g2mY26.jpg" height = "90" width = "100%"/>
 
 #### Features
 
