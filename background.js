@@ -1,5 +1,6 @@
 /**
  * @author https://github.com/LEODPEN
+ * date: 2021/05
  */
 
  class fixedSizeStack {
@@ -50,7 +51,6 @@ function doBackWard(stack, curWin) {
         var back;
         while((back = stack.pop()).tabId == curTab
             && back.windowId == curWIn);
-        console.log(back.windowId != curWin);
         if (back.windowId != curWin) return;
         chrome.tabs.update(back.tabId, {active: true});
     });
@@ -76,7 +76,6 @@ try{
                 }
                 if (!stack.empty() && latestTabMap.get(curWin)) {
                     latestTabMap.set(curWin, null);
-                    // latestTab = null;
                 }
                 doBackWard(stack, curWin);
             });
@@ -87,7 +86,6 @@ try{
         chrome.windows.getCurrent(function(cw){
 
             var curWin = cw.id;
-            // console.log(curWin);
             var stack;
             var latestTab;
             if (stackMap.has(curWin)) {
