@@ -43,41 +43,64 @@
     }
 }
 
-function doBackWard(stack) {
-    let curWin = chrome.windows.getCurrent().id;
-    let curTab = chrome.tabs.getCurrent().id;
-    // TODO 优化代码
+function doBackWard(stack, curWin) {
     if (stack.empty()) return;
-    var back = stack.pop();
-    console.log(back);
-    while (back.windowId == curWin 
-    && back.tabId == curTab) {
-        if (stack.empty()) return;
-        back = stack.pop();
-    }
-    chrome.tabs.update(back.tabId, {active: true});
+    chrome.tabs.getCurrent(function(curTab) {
+        // check again
+        var back;
+        while((back = stack.pop()).tabId == curTab
+            && back.windowId == curWIn);
+        console.log(back.windowId != curWin);
+        if (back.windowId != curWin) return;
+        chrome.tabs.update(back.tabId, {active: true});
+    });
 }
 
 try{
-    var latestTab;
+    var latestTabMap = new Map();
     let url = chrome.runtime.getURL("srch-res.html");
-    var stack = new fixedSizeStack(10);
+    var stackMap = new Map();
     chrome.commands.onCommand.addListener(function (command) {
         if (command === 'do-search') {
             chrome.tabs.create({ url });
         }
         if (command === 'backward') {
-            if (!stack.empty()) {
-                latestTab = null;
-            }
-            doBackWard(stack);
+            chrome.windows.getCurrent(function(cw) {
+                var stack;
+                var curWin = cw.id;
+                if (stackMap.has(curWin)) {
+                    stack = stackMap.get(curWin);
+                } else {
+                    stack = new fixedSizeStack(10);
+                    stackMap.set(curWin, stack);
+                }
+                if (!stack.empty() && latestTabMap.get(curWin)) {
+                    latestTabMap.set(curWin, null);
+                    // latestTab = null;
+                }
+                doBackWard(stack, curWin);
+            });
         }
       });
     chrome.tabs.onActivated.addListener(function(activeInfo) {
-        if (latestTab) {
-            stack.push(latestTab);
-        }
-        latestTab = activeInfo;
+
+        chrome.windows.getCurrent(function(cw){
+
+            var curWin = cw.id;
+            // console.log(curWin);
+            var stack;
+            var latestTab;
+            if (stackMap.has(curWin)) {
+                stack = stackMap.get(curWin);
+            } else {
+                stack = new fixedSizeStack(10);
+                stackMap.set(curWin, stack);
+            }
+            if ((latestTab = latestTabMap.get(curWin))) {
+                stack.push(latestTab);
+            }
+            latestTabMap.set(curWin, activeInfo);
+        });
     });
 } catch(e) {
     // If tab was closed then just jump it.
