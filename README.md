@@ -22,13 +22,15 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 
 ### Getting Plug-in
 
-1. 谷歌应用商店搜索并添加即可（添加后记得固定下，方便点击）；
+1. [谷歌应用商店](https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0)添加即可（添加后记得固定下，方便点击）；
 
 <img src="https://z3.ax1x.com/2021/05/17/g2mGP1.jpg" alt="g2mGP1.jpg" />
 
-2. 点击Release中最新包下载并解压后，添加到本地Chrome，其他操作相同；
+2. [Release](https://github.com/LEODPEN/Where-is-my-tab/releases/tag/1.2)中最新包下载并解压后，添加到本地Chrome，其他操作相同；
 
-<img src="https://z3.ax1x.com/2021/05/17/g2mY26.jpg" alt="g2mY26.jpg" height = "90" width = "100%"/>
+<img src="https://z3.ax1x.com/2021/05/17/g2mY26.jpg" alt="g2mY26.jpg" height = "110" width = "100%"/>
+
+3. Edge商店搜索同名插件（阉割版，因为其`manifest_version`只支持到2 ~~懒，不想兼容~~）；
 
 #### Features
 
