@@ -1,7 +1,7 @@
 {
     "name": "Where is my tab ?",
-    "description": "Search for tabs in the opened window, may can also search for bookmarks and history in future versions.",
-    "version": "1.2",
+    "description": "Search for tabs in the opened window, can also increase your speed of switching tabs.",
+    "version": "1.3",
     "manifest_version": 3,
     "permissions": [
         "tabs","commands","windows"

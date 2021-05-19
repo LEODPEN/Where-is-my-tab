@@ -25,24 +25,22 @@ function initDisplay() {
 }
 
 function judgeGo(){
-  var word = $("#keyword").val().trim();
-  if(word == "" && $("#keyword").hasClass("wait")){
+    var word = $("#keyword").val().trim();
+    if(word == "" && $("#keyword").hasClass("wait")){
       alert("Please enter keywords first.");
       return;
     }
     initDisplay();
+    if(word == "") {
+      return;
+    }
     goSearching(word.toUpperCase());
   }
 
+// no btn needed
 function goSearching(word) {
-    let changeColor = document.getElementById("seach-tabs");
-
-    // 一旦变绿直接变绿 8D /xs
-    changeColor.style.backgroundColor = "lightgreen";
-
     queryTabs(word);
 }
-  document.getElementById("seach-tabs").addEventListener("click", judgeGo);
 
   document.onkeydown=keyListener;
 
@@ -64,14 +62,20 @@ function goSearching(word) {
   function queryTabs(keywords) {
     let tabs = [];
     traverseTabsOfCurWindow(function (tab) {
-      if (tab.title.toUpperCase().indexOf(keywords) != -1) {
+      if ((tab.title && tab.title.toUpperCase().indexOf(keywords) != -1)
+        || (tab.url && tab.url.toUpperCase().indexOf(keywords) != -1)
+        || (tab.pendingUrl && tab.pendingUrl.toUpperCase().indexOf(keywords) != -1)) {
         tabs.push(tab);
       }
     }, function () {
-      $(".container").append('<div class="tab-result">Results in tabs:</div>');
+      $(".container").append('<div class="tab-result"> \n </div>');
       for (let j in tabs) {
         let tab = tabs[j];
-        $('.tab-result').append('<p id = "' + tab.id + '"' + '>' + tab.title + '</p>');
+        $('.tab-result').append('<div class = "res-card" id = "' + tab.id + '"' + '></div>');
+        $("#" + tab.id).append('<div class = "t" >' + tab.title + '</div>');
+        $("#" + tab.id).append('<div class = "url" >' + tab.url + '</div>');
+        // $('.tab-result').append('<div class = "res-card" id = "' + tab.id + '"' + '>' + tab.title + '</div>');
+
         jump2Tab(tab.id);
       }
     });
