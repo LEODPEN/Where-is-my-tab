@@ -64,7 +64,9 @@ function goSearching(word) {
   function queryTabs(keywords) {
     let tabs = [];
     traverseTabsOfCurWindow(function (tab) {
-      if (tab.title.toUpperCase().indexOf(keywords) != -1) {
+      if (tab.title.toUpperCase().indexOf(keywords) != -1
+        || tab.url.toUpperCase().indexOf(keywords) != -1
+        || (tab.pendingUrl && tab.pendingUrl.toUpperCase().indexOf(keywords) != -1)) {
         tabs.push(tab);
       }
     }, function () {

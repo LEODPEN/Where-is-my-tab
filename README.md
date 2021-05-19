@@ -1,16 +1,18 @@
 # Where-is-my-tab
 
-[![GitHub license](https://img.shields.io/github/license/LEODPEN/Where-is-my-tab)](https://github.com/LEODPEN/Where-is-my-tab/blob/main/LICENSE) 
-[![Version](https://img.shields.io/badge/version-1.2-orange)](https://github.com/LEODPEN/Where-is-my-tab/)
-
----
-
 <p align = "center">
 
 <img src="https://z3.ax1x.com/2021/05/17/g2EMt0.png" width="256" />
 
 </p>
 
+<p align = "center">
+<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.2-orange"> </a>
+<a href = "https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0" > <img src="https://img.shields.io/badge/platform-chrome-red"> </a>
+<a href = "https://github.com/LEODPEN/Where-is-my-tab/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/LEODPEN/Where-is-my-tab"> </a>
+</p>
+
+---
 
 Search for tabs in the opened window, may can also search for bookmarks and history in future versions.
 
