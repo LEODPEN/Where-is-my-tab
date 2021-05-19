@@ -1,4 +1,3 @@
-# Where-is-my-tab
 
 <p align = "center">
 
@@ -6,23 +5,24 @@
 
 </p>
 
-<p align = "center">
-<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.2-orange"> </a>
-<a href = "https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0" > <img src="https://img.shields.io/badge/platform-chrome-red"> </a>
-<a href = "https://github.com/LEODPEN/Where-is-my-tab/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/LEODPEN/Where-is-my-tab"> </a>
-</p>
+<h1 align="center">Where is my tab ?</h1>
 
----
+<div align = "center">
 
 Search for tabs in the opened window, may can also search for bookmarks and history in future versions.
 
-### About
+<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.2-orange"> </a>
+<a href = "https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0" > <img src="https://img.shields.io/badge/platform-chrome-red"> </a>
+<a href = "https://github.com/LEODPEN/Where-is-my-tab/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/LEODPEN/Where-is-my-tab"> </a>
+</div>
+
+## About
 
 学习及工作中常常遇到浏览器里面打开的tab页过多，窗口也多，总感觉或确定之前打开过某个tab页，但是不知道它在哪里了，于是有时不得不重新开一个tab页，“雪球越滚越大”。
 
 本插件提供关键词查找功能，点击结果即可跳转到相应tab页；此外，还提供tab回退，助力大家使用浏览器的速度起飞；
 
-### Getting Plug-in
+## Getting Plug-in
 
 1. [谷歌应用商店](https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0)添加即可（添加后记得固定下，方便点击）；
 
@@ -34,7 +34,7 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 
 3. Edge商店搜索同名插件（阉割版，因为其`manifest_version`只支持到2 ~~懒，不想兼容~~）；
 
-#### Features
+## Features
 
 + 分窗口tab名展示与关键词查找；
 
@@ -42,7 +42,7 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 
 + 分窗口tab页回退（一个窗口最多支持10次回退）；
 
-#### Usage
+## Usage
 
 + 搜索与跳转
     + 搜索
@@ -59,7 +59,7 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 
 > 注意：一个窗口只支持10个回退，多于10次则会丢弃更早的记录；
 
-### Others
+## Others
 
 + Windows下将(Command键替换为Ctrl即可)；
 
