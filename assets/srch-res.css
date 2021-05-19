@@ -1,8 +1,17 @@
-button {
-    height: 30px;
-    width: 30px;
-    outline: none;
-    margin: 10px;
-    border: ridge;
-    border-radius: 4px;
-  }
+input{
+  outline-style: none ;
+  border: 1px solid #ccc; 
+  border-radius: 3px;
+  padding: 13px 14px;
+  width: 180px;
+  font-size: 10px;
+  font-weight: 666;
+  font-family: "Microsoft soft";
+}
+
+input:focus{
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
