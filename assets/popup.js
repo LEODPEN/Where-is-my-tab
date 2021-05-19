@@ -68,10 +68,14 @@ function goSearching(word) {
         tabs.push(tab);
       }
     }, function () {
-      $(".container").append('<div class="tab-result"></div>');
+      $(".container").append('<div class="tab-result"> \n </div>');
       for (let j in tabs) {
         let tab = tabs[j];
-        $('.tab-result').append('<p id = "' + tab.id + '"' + '>' + tab.title + '</p>');
+        $('.tab-result').append('<div class = "res-card" id = "' + tab.id + '"' + '></div>');
+        $("#" + tab.id).append('<div class = "t" >' + tab.title + '</div>');
+        $("#" + tab.id).append('<div class = "url" >' + tab.url + '</div>');
+        // $('.tab-result').append('<div class = "res-card" id = "' + tab.id + '"' + '>' + tab.title + '</div>');
+
         jump2Tab(tab.id);
       }
     });
