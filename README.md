@@ -9,9 +9,9 @@
 
 <div align = "center">
 
-Search for tabs in the opened window, may can also search for bookmarks and history in future versions.
+Search for tabs in the opened window, can also increase your speed of switching tabs.
 
-<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.2-orange"> </a>
+<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.4-orange"> </a>
 <a href = "https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0" > <img src="https://img.shields.io/badge/platform-chrome-red"> </a>
 <a href = "https://github.com/LEODPEN/Where-is-my-tab/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/LEODPEN/Where-is-my-tab"> </a>
 </div>
@@ -21,6 +21,8 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 学习及工作中常常遇到浏览器里面打开的tab页过多，窗口也多，总感觉或确定之前打开过某个tab页，但是不知道它在哪里了，于是有时不得不重新开一个tab页，“雪球越滚越大”。
 
 本插件提供关键词查找功能，点击结果即可跳转到相应tab页；此外，还提供tab回退，助力大家使用浏览器的速度起飞；
+
+逐渐靠近的目标是解放鼠标！
 
 ## Getting Plug-in
 
@@ -47,9 +49,10 @@ Search for tabs in the opened window, may can also search for bookmarks and hist
 + 搜索与跳转
     + 搜索
         1. 可选择点击浏览器右上角插件图标，按照关键词搜索tab页；
-        2. 可选择键盘操作(`Command+Shift+9`)，新开tab页搜索(tab键可键入，回车可直接搜索)；
+        2. 可选择键盘操作(`Command+Shift+9`)，打开扩展工具(tab键可键入，回车可直接搜索)；
+        3. 可选择键盘操作(`Command+Shift+0`)，新开tab页操作;
     + 跳转
-        点击对应标题文字，即可跳转到已打开、需去往的tab页（如果采取2方式搜索，你可以选择`Command+9`来到新建搜索页，然后`Command+W`来关闭，毕竟目的是搜索不是开更多tab页）
+        点击对应标题文字，即可跳转到已打开、需去往的tab页（如果采取3方式搜索，你可以选择`Command+9`来到新建搜索页，然后`Command+W`来关闭，毕竟目的是搜索不是开更多tab页，**强烈建议使用2操作**）
 
 > 注意：不同窗口下搜索与跳转只会在当前窗口进行；
 
