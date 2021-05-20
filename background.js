@@ -61,10 +61,10 @@ try{
     let url = chrome.runtime.getURL("srch-res.html");
     var stackMap = new Map();
     chrome.commands.onCommand.addListener(function (command) {
-        if (command === 'do-search') {
-            chrome.tabs.create({ url });
-        }
-        if (command === 'backward') {
+            if (command === 'do-search-in-new-tab') {
+                chrome.tabs.create({ url });
+            }
+            if (command === 'backward') {
             chrome.windows.getCurrent(function(cw) {
                 var stack;
                 var curWin = cw.id;
@@ -79,6 +79,8 @@ try{
                 }
                 doBackWard(stack, curWin);
             });
+            if (command === 'forward') {
+            }
         }
       });
     chrome.tabs.onActivated.addListener(function(activeInfo) {
