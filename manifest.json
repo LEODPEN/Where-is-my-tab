@@ -1,7 +1,7 @@
 {
     "name": "Where is my tab ?",
     "description": "Search for tabs in the opened window, can also increase your speed of switching tabs.",
-    "version": "1.4",
+    "version": "1.5",
     "manifest_version": 3,
     "update_url": "http://clients2.google.com/service/update2/crx",
     "permissions": [

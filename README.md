@@ -68,7 +68,7 @@ Search for tabs in the opened window, can also increase your speed of switching 
 
 + **不涉及任何隐私收集**，无外部依赖，离线可用；
 
-+ 前端菜鸟，代码垃圾请轻喷；界面风格遵循极简主义以及实用主义 ~~(界面丑，不想写)~~；
++ 前端菜鸟，代码垃圾请轻喷，此处强烈感谢[@TimGin117](https://github.com/TimGin117)对代码中各种前端问题的解答与帮助！
 
 + 如果觉得有用希望能star一下or应用商店打个分（本人是深度用户hh）；
 

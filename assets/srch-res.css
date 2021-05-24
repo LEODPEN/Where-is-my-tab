@@ -42,16 +42,11 @@ input:focus{
 }
 
 .res-card:hover {
-  position: center;
-  overflow: hidden;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  width: auto;
-  max-width: 288px;
-  height: auto;
-  max-height: 80px;
   background-color: 	#ff7a7a;
-  content-visibility: auto;
+}
+
+.active {
+  background-color: 	#ff7a7a;
 }
 
 .t {
