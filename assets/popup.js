@@ -3,19 +3,19 @@
  * date: 2021/05
  */
 
-  $(function(){
-    $("#keyword").val("Please enter keywords").addClass("wait")
-    .blur(function(){
-      if($(this).val()==""){
-        initDisplay();
-        $("#keyword").val("Please enter keywords").addClass("wait");
-      }
-    }).focus(function(){
-        if($(this).val()=="Please enter keywords"){
-          $("#keyword").val("").removeClass("wait");
-      }
-    });
+ $(function(){
+  $("#keyword").val("Please enter keywords").addClass("wait")
+  .blur(function(){
+    if($(this).val()==""){
+      initDisplay();
+      $("#keyword").val("Please enter keywords").addClass("wait");
+    }
+  }).focus(function(){
+      if($(this).val()=="Please enter keywords"){
+        $("#keyword").val("").removeClass("wait");
+    }
   });
+});
 
 function initDisplay() {
     $(".tab-result").remove();
@@ -27,7 +27,7 @@ function initDisplay() {
 function judgeGo(){
     var word = $("#keyword").val().trim();
     if(word == "" && $("#keyword").hasClass("wait")){
-      alert("Please enter keywords first.");
+      // alert("Please enter keywords first.");
       return;
     }
     initDisplay();
@@ -54,8 +54,10 @@ function goSearching(word) {
     if (e.keyCode == 38 || e.keyCode == 40) {
       e.preventDefault();
     }
-  })
+  });
 
+  // focus at first
+  $("#keyword").focus();
 
   /**
    * keyboard selection
@@ -69,17 +71,14 @@ function goSearching(word) {
       e.stopPropagation();
       if (index > 0) {
         active.removeClass('active').prev().addClass('active');
-        // active.removeClass('active').addClass("res-card").prev().removeClass('res-card').addClass('active');
       }
     } else if (e.keyCode == 40) {
       e.stopPropagation();
       if (index != -1 && index < ($list.children().length - 1)) {
         active.removeClass('active').next().addClass('active');
-        // active.removeClass('active').addClass("res-card").next().removeClass('res-card').addClass('active');
       }
     } else if (e.keyCode == 13) {
       e.stopPropagation();
-      // console.log(active.attr('id'));
       chrome.tabs.update(parseInt(active.attr('id'), 10), {active: true});
     }
   }
@@ -89,9 +88,7 @@ function goSearching(word) {
     var allRabs = $('.res-card');
 
     if (allRabs.length > 0) {
-    //  console.log(tabs[0].id);
       $('#'+tabs[0].id).addClass('active');
-      // $('#where-is-my-tab').keydown(keyListener);
       $(document).bind("keydown", keyListener);
     }
   }
