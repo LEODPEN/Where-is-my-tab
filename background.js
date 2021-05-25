@@ -1,47 +1,109 @@
 /**
  * @author https://github.com/LEODPEN
- * date: 2021/05
+ * date: 2021/05/26
+ * @description new version using linked list.
  */
 
- class fixedSizeStack {
-    
-    constructor(sz) {
-        this.len = sz;
-        this.data = [];
-        this.curSize = 0;
+ class Node {
+    windowId;tabId;next;pre;cur;
+    constructor(windowId, tabId) {
+        this.windowId = windowId;
+        this.tabId = tabId;
+        this.next = null;
+        this.pre = null;
+        this.cur = this.head;
+    }
+ }
+
+ class LinkedList {
+    head;tail;windowId;
+    constructor(windowId) {
+        this.windowId = windowId;
+        this.head = new Node(-1, -1);
+        this.tail = new Node(-1, -1);
+        this.head.next = this.tail;
+        this.tail.pre = this.head;
     }
 
     empty() {
-        return this.curSize <= 0;
-    }
-
-    full() {
-        return this.curSize >= this.len;
+        return this.head.next == this.tail;
     }
     
     clear() {
-        delete this.data;
-        this.data = [];
+        this.head.next = this.tail;
+        this.tail.pre = this.head;
         this.curSize = 0;
     }
 
-    push(e) {
-        if (this.full()) {
-            this.data.shift();
-            this.curSize--;
+    /**
+     * @param threshold  > 10
+     */
+    deleteSomeWhenSizeLargerThan(threshold) {
+        var sz = 0, randomNum = Math.round(Math.random()*(threshold/2));
+        randomNum = randomNum >= 2 ? randomNum : 2;
+        var node = this.head;
+        var randomNode = null;
+        while (node.next != this.tail) {
+            node = node.next;
+            sz++;
+            if (sz == randomNum) {
+                randomNode = node;
+            }
         }
-        var newCurLen = this.data.push(e);
-        this.curSize = newCurLen >= this.len ? this.len : newCurLen;
+        if (sz > threshold) {
+            nodeAfterHead = this.head.next;
+            nodeAfterHead.pre = null;
+
+            this.head.next = randomNode;
+            randomNode.pre = this.head;
+        }
     }
-    
-    pop() {
-        if (this.empty()) {
+
+    /**
+     * @param  e 待插入element(new)
+     */
+    add(e) {
+        if (!e) {
             return;
         }
-        var res = this.data.pop(); // 最后一个
-        this.curSize = this.curSize <= 0 ? 0 : --this.curSize;
-        return res;
+
+        if (!this.empty()) {
+            nodeBeforeTail = this.tail.pre;
+            nodeAfterCur = this.cur.next;
+
+            nodeBeforeTail.next = null;
+            nodeAfterCur.pre = null;
+        }
+        
+        this.cur.next = e;
+        e.pre = this.cur;
+        e.next = this.tail;
+        this.tail.pre = e;
+
+        this.cur = this.cur.next; // 即为e
+
+        // 保证检测概率更大
+        if (Math.random() <= 0.5) {
+            this.deleteSomeWhenSizeLargerThan(20);
+        }
     }
+
+    moveBackard() {
+        // TODO
+        if (this.empty() || this.cur == this.head) {
+            this.cur = this.head;
+        }
+
+    }
+
+    moveForward() {
+        // TODO
+        if (this.empty() || this.cur == this.head) {
+            this.cur = this.head;
+        }
+    }
+    
+    
 }
 
 function doBackWard(stack, curWin) {
@@ -55,55 +117,3 @@ function doBackWard(stack, curWin) {
         chrome.tabs.update(back.tabId, {active: true});
     });
 }
-
-try{
-    var latestTabMap = new Map();
-    let url = chrome.runtime.getURL("srch-res.html");
-    var stackMap = new Map();
-    chrome.commands.onCommand.addListener(function (command) {
-            if (command === 'do-search-in-new-tab') {
-                chrome.tabs.create({ url });
-            }
-            if (command === 'backward') {
-            chrome.windows.getCurrent(function(cw) {
-                var stack;
-                var curWin = cw.id;
-                if (stackMap.has(curWin)) {
-                    stack = stackMap.get(curWin);
-                } else {
-                    stack = new fixedSizeStack(10);
-                    stackMap.set(curWin, stack);
-                }
-                if (!stack.empty() && latestTabMap.get(curWin)) {
-                    latestTabMap.set(curWin, null);
-                }
-                doBackWard(stack, curWin);
-            });
-            if (command === 'forward') {
-            }
-        }
-      });
-    chrome.tabs.onActivated.addListener(function(activeInfo) {
-
-        chrome.windows.getCurrent(function(cw){
-
-            var curWin = cw.id;
-            var stack;
-            var latestTab;
-            if (stackMap.has(curWin)) {
-                stack = stackMap.get(curWin);
-            } else {
-                stack = new fixedSizeStack(10);
-                stackMap.set(curWin, stack);
-            }
-            if ((latestTab = latestTabMap.get(curWin))) {
-                stack.push(latestTab);
-            }
-            latestTabMap.set(curWin, activeInfo);
-        });
-    });
-} catch(e) {
-    // If tab was closed then just jump it.
-    console.error(e);
-}
-

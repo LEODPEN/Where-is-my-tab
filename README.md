@@ -11,7 +11,7 @@
 
 Search for tabs in the opened window, can also increase your speed of switching tabs.
 
-<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.4-orange"> </a>
+<a href = "https://github.com/LEODPEN/Where-is-my-tab/"> <img src="https://img.shields.io/badge/version-1.6-orange"> </a>
 <a href = "https://chrome.google.com/webstore/detail/where-is-my-tab/abccjdbmfpgocjjmebdjogoophngecfe?hl=zh-CN&authuser=0" > <img src="https://img.shields.io/badge/platform-chrome-red"> </a>
 <a href = "https://github.com/LEODPEN/Where-is-my-tab/blob/main/LICENSE"> <img src="https://img.shields.io/github/license/LEODPEN/Where-is-my-tab"> </a>
 </div>
@@ -20,7 +20,7 @@ Search for tabs in the opened window, can also increase your speed of switching 
 
 学习及工作中常常遇到浏览器里面打开的tab页过多，窗口也多，总感觉或确定之前打开过某个tab页，但是不知道它在哪里了，于是有时不得不重新开一个tab页，“雪球越滚越大”。
 
-本插件提供关键词查找功能，点击结果即可跳转到相应tab页；此外，还提供tab回退，助力大家使用浏览器的速度起飞；（当前已开业完全脱离鼠标使用本插件！）
+本插件提供关键词查找功能，点击结果即可跳转到相应tab页；此外，还提供tab回退，助力大家使用浏览器的速度起飞；（当前已支持完全脱离鼠标使用本插件！）
 
 目标是解放鼠标！
 
@@ -30,7 +30,7 @@ Search for tabs in the opened window, can also increase your speed of switching 
 
 <img src="https://z3.ax1x.com/2021/05/17/g2mGP1.jpg" alt="g2mGP1.jpg" />
 
-2. [Release](https://github.com/LEODPEN/Where-is-my-tab/releases/tag/1.2)中最新包下载并解压后，添加到本地Chrome，其他操作相同；
+2. [Release](https://github.com/LEODPEN/Where-is-my-tab/releases/tag/V1.5)中最新包下载并解压后，添加到本地Chrome，其他操作相同；
 
 <img src="https://z3.ax1x.com/2021/05/17/g2mY26.jpg" alt="g2mY26.jpg" height = "110" width = "100%"/>
 
