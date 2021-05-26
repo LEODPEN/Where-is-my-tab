@@ -4,7 +4,7 @@
  * @description new version using linked list.
  */
 
- class Node {
+ class PNode {
     windowId;tabId;next;pre;cur;
     constructor(windowId, tabId) {
         this.windowId = windowId;
@@ -19,8 +19,8 @@
     head;tail;windowId;
     constructor(windowId) {
         this.windowId = windowId;
-        this.head = new Node(-1, -1);
-        this.tail = new Node(-1, -1);
+        this.head = new PNode(-1, -1);
+        this.tail = new PNode(-1, -1);
         this.head.next = this.tail;
         this.tail.pre = this.head;
     }
@@ -32,7 +32,7 @@
     clear() {
         this.head.next = this.tail;
         this.tail.pre = this.head;
-        this.curSize = 0;
+        this,cur = this.head;
     }
 
     /**
@@ -88,32 +88,141 @@
         }
     }
 
-    moveBackard() {
-        // TODO
-        if (this.empty() || this.cur == this.head) {
-            this.cur = this.head;
+    /**
+     * 如果返回为null，则说明cur未变，不跳转
+     * @returns 
+     */
+    loadBackard() {
+        if (this.empty()) return null;
+        var r = this.cur;
+        var l = this.cur.pre;
+        while (l != this.head && !judgeExistence(l.windowId, l.tabId)) {
+            l = l.pre;
         }
-
+        if (l != r.pre) {
+            l.next = r;
+            r.pre = l;
+        }
+        if (l == this.head) {
+            return null;
+        } else {
+            this.cur = l;
+            return this.cur;
+        }
     }
 
-    moveForward() {
-        // TODO
-        if (this.empty() || this.cur == this.head) {
-            this.cur = this.head;
+    /**
+     * 如果返回为null，则说明cur未变，不跳转
+     * @returns 
+     */
+    loadForward() {
+        if (this.empty()) return null;
+        var l = this.cur;
+        var r = this.cur.next;
+        while(r != this.tail && !judgeExistence(r.windowId, r.tabId)) {
+            r = r.next;
+        }
+        if (r != l.next) {
+            l.next = r;
+            r.pre = l;
+        }
+        if (r == this.tail) {
+            return null;
+        } else {
+            this.cur = r;
+            return this.cur;
         }
     }
-    
-    
 }
 
-function doBackWard(stack, curWin) {
-    if (stack.empty()) return;
-    chrome.tabs.getCurrent(function(curTab) {
-        // check again
-        var back;
-        while((back = stack.pop()).tabId == curTab
-            && back.windowId == curWIn);
-        if (back.windowId != curWin) return;
-        chrome.tabs.update(back.tabId, {active: true});
+function judgeExistence(windowId, tabId) {
+    try {
+         var tab = chrome.tabs.get(tabId);
+         if (!tab || tab.windowId != windowId) {
+             return false;
+         }
+    } catch(e) {
+        return false;
+    }
+    return true;
+}
+
+function doBackWard(lk) {
+    var back;
+    if (!lk || !(back = lk.loadBackard()) || back.windowId != lk.windowId) {
+        return;
+    }
+    chrome.tabs.update(back.tabId, {active: true});
+}
+
+function doForward(lk) {
+    var forw;
+    if (!lk || !(forw = lk.loadForward()) || forw.windowId != lk.windowId) {
+        return;
+    }
+    chrome.tabs.update(forw.tabId, {active: true});
+}
+
+try{
+    let url = chrome.runtime.getURL("srch-res.html");
+    var map = new Map();
+    chrome.commands.onCommand.addListener(function (command) {
+            if (command === 'do-search-in-new-tab') {
+                // 当前自动禁用，要开启需要到快捷键设置自由添加
+                chrome.tabs.create({ url });
+            }
+            if (command === 'backward') {
+                chrome.windows.getCurrent(function(cw) {
+                    var curWin = cw.id;
+                    var lk;
+                    if (!map.has(curWin)) {
+                        // 初始时刻
+                        return;
+                    } else {
+                        lk = map.get(curWin);
+                    }
+                    doBackWard(lk);
+                });
+            if (command === 'forward') {
+                chrome.windows.getCurrent(function(cw) {
+                    var curWin = cw.id;
+                    var lk;
+                    if (!map.has(curWin)) {
+                        // 初始时刻
+                        return;
+                    } else {
+                        lk = map.get(curWin);
+                    }
+                    doForWard(map, cw.id);
+                });
+            }
+        }
+      });
+    chrome.tabs.onActivated.addListener(function(activeInfo) {
+
+        var windowId = activeInfo.windowId;
+        var tabId = activeInfo.tabId;
+        var lk;
+        
+        if (map.has(curWin)) {
+            lk = map.get(curWin);
+            if (!lk || lk.windowId != curWin) {
+                lk.clear();
+                lk = new LinkedList(curWin);
+                map.set(curWin, lk);
+            }
+        } else {
+            lk = new LinkedList(curWin);
+            map.set(curWin, lk);
+        }
+        if (lk.cur.windowId == windowId && lk.cur.tabId == tabId) {
+            return;
+        } else {
+            var curNode = new PNode(windowId, tabId);
+            lk.add(curNode);
+        }
     });
+} catch(e) {
+    // If tab was closed then just jump it.
+    console.error(e);
 }
