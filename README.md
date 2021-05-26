@@ -50,7 +50,7 @@ Search for tabs in the opened window, can also increase your speed of switching 
     + 搜索
         1. 可选择点击浏览器右上角插件图标，按照关键词搜索tab页；
         2. 可选择键盘操作(`Command+Shift+9`)，打开扩展工具(tab键可键入，回车可直接搜索，上下键可选中)；
-        3. 可选择键盘操作(`Command+Shift+0`)，新开tab页操作;
+        3. 可选择键盘操作(`Command+Shift+0`)，新开tab页操作【在1.6版本不再自动启用，请于快捷键自己设置】;
     + 跳转
         点击对应标题文字，即可跳转到已打开、需去往的tab页（如果采取3方式搜索，你可以选择`Command+9`来到新建搜索页，然后`Command+W`来关闭，毕竟目的是搜索不是开更多tab页，**强烈建议使用2操作**）
 

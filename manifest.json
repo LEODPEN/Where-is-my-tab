@@ -38,8 +38,8 @@
         },
         "do-search-in-new-tab": {
             "suggested_key": {
-                "default": "Ctrl+Shift+0",
-                "mac": "Command+Shift+0"
+                "default": "",
+                "mac": ""
             },
             "description": "doSearchInNewTab"
         }
