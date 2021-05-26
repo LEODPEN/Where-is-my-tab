@@ -137,14 +137,13 @@
 
 function judgeExistence(windowId, tabId) {
     try {
-         var p = chrome.tabs.get(tabId);
-         p.then(result => {
+         return chrome.tabs.get(tabId).then((result) => {
              if (!result) {
                 return false;
              }
          })
-         .catch(e => {
-            console.log(e);
+         .catch((error) => {
+            // console.log(e);
             return false;
         })
         //  if (!tab || tab.windowId != windowId) {
