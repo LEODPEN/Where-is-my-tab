@@ -5,24 +5,24 @@
  */
 
  class PNode {
-    windowId;tabId;next;pre;cur;
+    windowId;tabId;next;pre;
     constructor(windowId, tabId) {
         this.windowId = windowId;
         this.tabId = tabId;
         this.next = null;
         this.pre = null;
-        this.cur = this.head;
     }
  }
 
  class LinkedList {
-    head;tail;windowId;
+    head;tail;windowId;cur;
     constructor(windowId) {
         this.windowId = windowId;
         this.head = new PNode(-1, -1);
         this.tail = new PNode(-1, -1);
         this.head.next = this.tail;
         this.tail.pre = this.head;
+        this.cur = this.head;
     }
 
     empty() {
@@ -32,7 +32,7 @@
     clear() {
         this.head.next = this.tail;
         this.tail.pre = this.head;
-        this,cur = this.head;
+        this.cur = this.head;
     }
 
     /**
@@ -51,7 +51,7 @@
             }
         }
         if (sz > threshold) {
-            nodeAfterHead = this.head.next;
+            var nodeAfterHead = this.head.next;
             nodeAfterHead.pre = null;
 
             this.head.next = randomNode;
@@ -68,8 +68,8 @@
         }
 
         if (!this.empty()) {
-            nodeBeforeTail = this.tail.pre;
-            nodeAfterCur = this.cur.next;
+            var nodeBeforeTail = this.tail.pre;
+            var nodeAfterCur = this.cur.next;
 
             nodeBeforeTail.next = null;
             nodeAfterCur.pre = null;
@@ -137,17 +137,29 @@
 
 function judgeExistence(windowId, tabId) {
     try {
-         var tab = chrome.tabs.get(tabId);
-         if (!tab || tab.windowId != windowId) {
-             return false;
-         }
+         var p = chrome.tabs.get(tabId);
+         p.then(result => {
+             if (!result) {
+                return false;
+             }
+         })
+         .catch(e => {
+            console.log(e);
+            return false;
+        })
+        //  if (!tab || tab.windowId != windowId) {
+        //      return false;
+        //  }
+        // if (!tab) {
+        //     return false;
+        // }
     } catch(e) {
         return false;
     }
     return true;
 }
 
-function doBackWard(lk) {
+function doBackward(lk) {
     var back;
     if (!lk || !(back = lk.loadBackard()) || back.windowId != lk.windowId) {
         return;
@@ -176,8 +188,9 @@ try{
                     } else {
                         lk = map.get(curWin);
                     }
-                    doBackWard(lk);
+                    doBackward(lk);
                 });
+            }
             if (command === 'forward') {
                 chrome.windows.getCurrent(function(cw) {
                     var curWin = cw.id;
@@ -188,10 +201,9 @@ try{
                     } else {
                         lk = map.get(curWin);
                     }
-                    doForWard(map, cw.id);
+                    doForward(lk);
                 });
             }
-        }
       });
     chrome.tabs.onActivated.addListener(function(activeInfo) {
 
@@ -199,16 +211,16 @@ try{
         var tabId = activeInfo.tabId;
         var lk;
         
-        if (map.has(curWin)) {
-            lk = map.get(curWin);
-            if (!lk || lk.windowId != curWin) {
+        if (map.has(windowId)) {
+            lk = map.get(windowId);
+            if (!lk || lk.windowId != windowId) {
                 lk.clear();
-                lk = new LinkedList(curWin);
-                map.set(curWin, lk);
+                lk = new LinkedList(windowId);
+                map.set(windowId, lk);
             }
         } else {
-            lk = new LinkedList(curWin);
-            map.set(curWin, lk);
+            lk = new LinkedList(windowId);
+            map.set(windowId, lk);
         }
         if (lk.cur.windowId == windowId && lk.cur.tabId == tabId) {
             return;
