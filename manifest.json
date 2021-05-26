@@ -35,13 +35,6 @@
                 "mac": "Command+Shift+8"
             },
             "description": "forward"
-        },
-        "do-search-in-new-tab": {
-            "suggested_key": {
-                "default": "",
-                "mac": ""
-            },
-            "description": "doSearchInNewTab"
         }
     }
   }

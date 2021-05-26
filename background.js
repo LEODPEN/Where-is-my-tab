@@ -164,13 +164,8 @@ function doForward(lk) {
 }
 
 try{
-    let url = chrome.runtime.getURL("srch-res.html");
     var map = new Map();
     chrome.commands.onCommand.addListener(function (command) {
-            if (command === 'do-search-in-new-tab') {
-                // 当前自动禁用，要开启需要到快捷键设置自由添加
-                chrome.tabs.create({ url });
-            }
             if (command === 'backward') {
                 chrome.windows.getCurrent(function(cw) {
                     var curWin = cw.id;
