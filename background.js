@@ -96,7 +96,10 @@
         if (this.empty()) return null;
         var r = this.cur;
         var l = this.cur.pre;
-        while (l != this.head && !judgeExistence(l.windowId, l.tabId)) {
+        while (l != this.head && 
+            (! (judgeExistence(l.windowId, l.tabId))
+                || (l.windowId == l.pre.windowId 
+                    && l.tabId == l.pre.tabId))) {
             l = l.pre;
         }
         if (l != r.pre) {
@@ -119,7 +122,10 @@
         if (this.empty()) return null;
         var l = this.cur;
         var r = this.cur.next;
-        while(r != this.tail && !judgeExistence(r.windowId, r.tabId)) {
+        while(r != this.tail && 
+                (! (judgeExistence(r.windowId, r.tabId))
+                    || (r.windowId == r.next.windowId
+                        && r.tabId == r.next.tabId))) {
             r = r.next;
         }
         if (r != l.next) {
@@ -135,27 +141,24 @@
     }
 }
 
-function judgeExistence(windowId, tabId) {
-    try {
-         return chrome.tabs.get(tabId).then((result) => {
-             if (!result) {
-                return false;
-             }
-         })
-         .catch((error) => {
-            // console.log(e);
-            return false;
-        })
-        //  if (!tab || tab.windowId != windowId) {
-        //      return false;
-        //  }
-        // if (!tab) {
-        //     return false;
-        // }
-    } catch(e) {
-        return false;
-    }
-    return true;
+
+
+async function judgeExistence(windowId, tabId) {
+    var res = false;
+    await chrome.tabs.get(tabId)
+        .then((result) => {
+        if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError.message);
+            res = false;
+        } else {
+            // console.log("all things ok");
+            res = true;
+        }})
+        .catch((error) => {
+            console.log(error);
+            res = false;
+        });
+    return res;
 }
 
 function doBackward(lk) {
@@ -176,34 +179,64 @@ function doForward(lk) {
 
 try{
     var map = new Map();
+    chrome.storage.local.get("MAP", function(data) {
+        if (chrome.runtime.lastError || !data) {
+            map = new Map();
+        } else {
+            map = new Map();
+            var ols = new Map(Object.entries(data.MAP));
+            for (var [key, value] of ols) {
+                var h = value.head, t = value.tail, c = value.cur;
+
+                console.log(h);
+                console.log(t);
+                console.log(c);
+                var lk = new LinkedList(parseInt(key));
+                var cur;
+                while(h.next != null) {
+                    h = h.next;
+                    if (h.windowId != -1 && h.tabId != -1) {
+                        var pnode = new PNode(h.windowId, h.tabId);
+                        if (h == c) {
+                            cur = pnode;
+                        }
+                        lk.add(pnode);
+                    }
+                }
+                map.set(parseInt(key), lk);
+              }
+        }
+    });
     chrome.commands.onCommand.addListener(function (command) {
-            if (command === 'backward') {
-                chrome.windows.getCurrent(function(cw) {
-                    var curWin = cw.id;
-                    var lk;
-                    if (!map.has(curWin)) {
-                        // 初始时刻
-                        return;
-                    } else {
-                        lk = map.get(curWin);
-                    }
-                    doBackward(lk);
-                });
-            }
-            if (command === 'forward') {
-                chrome.windows.getCurrent(function(cw) {
-                    var curWin = cw.id;
-                    var lk;
-                    if (!map.has(curWin)) {
-                        // 初始时刻
-                        return;
-                    } else {
-                        lk = map.get(curWin);
-                    }
-                    doForward(lk);
-                });
-            }
-      });
+        if (command === 'backward') {
+            chrome.windows.getCurrent(function(cw) {
+                var curWin = cw.id;
+                var lk;
+                if (!map.has(curWin)) {
+                    // 初始时刻
+                    return;
+                } else {
+                    lk = map.get(curWin);
+                }
+                doBackward(lk);
+                chrome.storage.local.set({"MAP": Object.fromEntries(map)});
+            });
+        }
+        if (command === 'forward') {
+            chrome.windows.getCurrent(function(cw) {
+                var curWin = cw.id;
+                var lk;
+                if (!map.has(curWin)) {
+                    // 初始时刻
+                    return;
+                } else {
+                    lk = map.get(curWin);
+                }
+                doForward(lk);
+                chrome.storage.local.set({"MAP": Object.fromEntries(map)});
+            });
+        }
+    });
     chrome.tabs.onActivated.addListener(function(activeInfo) {
 
         var windowId = activeInfo.windowId;
@@ -226,8 +259,10 @@ try{
         } else {
             var curNode = new PNode(windowId, tabId);
             lk.add(curNode);
+            chrome.storage.local.set({"MAP": Object.fromEntries(map)});
         }
     });
+    
 } catch(e) {
     // If tab was closed then just jump it.
     console.error(e);

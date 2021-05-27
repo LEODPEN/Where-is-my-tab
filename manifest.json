@@ -5,7 +5,7 @@
     "manifest_version": 3,
     "update_url": "http://clients2.google.com/service/update2/crx",
     "permissions": [
-        "tabs","commands","windows"
+        "tabs","commands","windows","storage"
       ],
     "background": {
         "service_worker": "background.js"
