@@ -1,11 +1,11 @@
 {
     "name": "Where is my tab ?",
     "description": "Search for tabs in the opened window, can also increase your speed of switching tabs.",
-    "version": "1.5",
+    "version": "1.6",
     "manifest_version": 3,
     "update_url": "http://clients2.google.com/service/update2/crx",
     "permissions": [
-        "tabs","commands","windows"
+        "tabs","commands","windows","storage"
       ],
     "background": {
         "service_worker": "background.js"
@@ -17,31 +17,24 @@
      "commands": {
         "_execute_action": {
             "suggested_key": {
-                "default": "Ctrl+Shift+9",
-                "windows": "Ctrl+Shift+9",
-                "mac": "Command+Shift+9"
+                "default": "Ctrl+Shift+7",
+                "windows": "Ctrl+Shift+7",
+                "mac": "Command+Shift+7"
             }
         },
         "backward": {
             "suggested_key": {
-                "default": "Ctrl+Shift+7",
-                "mac": "Command+Shift+7"
+                "default": "Ctrl+Shift+9",
+                "mac": "Command+Shift+9"
             },
             "description": "backward"
         },
         "forward": {
             "suggested_key": {
-                "default": "Ctrl+Shift+8",
-                "mac": "Command+Shift+8"
-            },
-            "description": "forward"
-        },
-        "do-search-in-new-tab": {
-            "suggested_key": {
                 "default": "Ctrl+Shift+0",
                 "mac": "Command+Shift+0"
             },
-            "description": "doSearchInNewTab"
+            "description": "forward"
         }
     }
   }
