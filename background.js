@@ -35,6 +35,19 @@
         this.cur = this.head;
     }
 
+    deleteOne(node) {
+        if (!node || node == this.head || node == this.tail) {
+            return;
+        }
+        var p = node.pre;
+        var n = node.next;
+        p.next = n;
+        n.pre = p;
+        node.pre = null;
+        node.next = null;
+        node = null;
+    }
+
     /**
      * @param threshold  > 10
      */
@@ -92,21 +105,32 @@
      * 如果返回为null，则说明cur未变，不跳转
      * @returns 
      */
-    loadBackard() {
+    loadBackard(ifDelete) {
         if (this.empty()) return null;
         var r = this.cur;
         var l = this.cur.pre;
-        while (l != this.head && 
-            (! (judgeExistence(l.windowId, l.tabId))
-                || (l.windowId == l.pre.windowId 
-                    && l.tabId == l.pre.tabId))) {
+        // while (l != this.head && 
+        //     (! (judgeExistence(l.windowId, l.tabId))
+        //         || (l.windowId == l.pre.windowId 
+        //             && l.tabId == l.pre.tabId))) {
+        //     l = l.pre;
+        // }
+        while (l != this.head && l.tabId == l.pre.tabId) {
+            l.pre = l.pre.pre;
+            l.pre.next = l;
             l = l.pre;
         }
         if (l != r.pre) {
             l.next = r;
             r.pre = l;
         }
+        if (ifDelete == true) {
+            this.deleteOne(r);
+        }
         if (l == this.head) {
+            if (r.next == null || r.pre == null) {
+                this.cur = l;
+            }
             return null;
         } else {
             this.cur = l;
@@ -118,21 +142,32 @@
      * 如果返回为null，则说明cur未变，不跳转
      * @returns 
      */
-    loadForward() {
+    loadForward(ifDelete) {
         if (this.empty()) return null;
         var l = this.cur;
         var r = this.cur.next;
-        while(r != this.tail && 
-                (! (judgeExistence(r.windowId, r.tabId))
-                    || (r.windowId == r.next.windowId
-                        && r.tabId == r.next.tabId))) {
-            r = r.next;
+        // while(r != this.tail && 
+        //         (! (judgeExistence(r.windowId, r.tabId))
+        //             || (r.windowId == r.next.windowId
+        //                 && r.tabId == r.next.tabId))) {
+        //     r = r.next;
+        // }
+        while (r != this.tail && r.tabId == r.next.tabId) {
+            r.next = r.next.next;
+            r.next.pre = r;
+            l = l.pre;
         }
         if (r != l.next) {
             l.next = r;
             r.pre = l;
         }
+        if(ifDelete == true) {
+            this.deleteOne(l);
+        }
         if (r == this.tail) {
+            if (l.next == null || l.pre == null) {
+                this.cur = r.pre;
+            }
             return null;
         } else {
             this.cur = r;
@@ -161,20 +196,30 @@ async function judgeExistence(windowId, tabId) {
     return res;
 }
 
-function doBackward(lk) {
+function doBackward(lk, ifDelete) {
     var back;
-    if (!lk || !(back = lk.loadBackard()) || back.windowId != lk.windowId) {
+    if (!lk || !(back = lk.loadBackard(ifDelete)) || back.windowId != lk.windowId) {
         return;
     }
-    chrome.tabs.update(back.tabId, {active: true});
+    chrome.tabs.update(back.tabId, {active: true}, function(res) {
+        if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError.message);
+            doBackward(lk, true);
+        }
+    });
 }
 
-function doForward(lk) {
+function doForward(lk, ifDelete) {
     var forw;
-    if (!lk || !(forw = lk.loadForward()) || forw.windowId != lk.windowId) {
+    if (!lk || !(forw = lk.loadForward(ifDelete)) || forw.windowId != lk.windowId) {
         return;
     }
-    chrome.tabs.update(forw.tabId, {active: true});
+    chrome.tabs.update(forw.tabId, {active: true}, function(res) {
+        if (chrome.runtime.lastError) {
+            console.log(chrome.runtime.lastError.message);
+            doForward(lk, true);
+        }
+    });
 }
 
 try{
@@ -187,21 +232,22 @@ try{
             var ols = new Map(Object.entries(data.MAP));
             for (var [key, value] of ols) {
                 var h = value.head, t = value.tail, c = value.cur;
-
-                console.log(h);
-                console.log(t);
-                console.log(c);
                 var lk = new LinkedList(parseInt(key));
                 var cur;
+                var pnode;
                 while(h.next != null) {
                     h = h.next;
                     if (h.windowId != -1 && h.tabId != -1) {
-                        var pnode = new PNode(h.windowId, h.tabId);
-                        if (h == c) {
+                        pnode = new PNode(h.windowId, h.tabId);
+                        if (h == c || (h.windowId == c.windowId && h.tabId == c.tabId)) {
+                            console.log(pnode);
                             cur = pnode;
                         }
                         lk.add(pnode);
                     }
+                }
+                if (cur) {
+                    lk.cur = cur;
                 }
                 map.set(parseInt(key), lk);
               }
@@ -218,7 +264,7 @@ try{
                 } else {
                     lk = map.get(curWin);
                 }
-                doBackward(lk);
+                doBackward(lk, false);
                 chrome.storage.local.set({"MAP": Object.fromEntries(map)});
             });
         }
@@ -232,7 +278,7 @@ try{
                 } else {
                     lk = map.get(curWin);
                 }
-                doForward(lk);
+                doForward(lk, false);
                 chrome.storage.local.set({"MAP": Object.fromEntries(map)});
             });
         }
@@ -264,6 +310,7 @@ try{
     });
     
 } catch(e) {
-    // If tab was closed then just jump it.
+    map.clear();
+    chrome.storage.local.set({"MAP": null});
     console.error(e);
 }
